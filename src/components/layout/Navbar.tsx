@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Server, Settings } from "lucide-react";
+import { Home, Users, Server, Settings, FileCode } from "lucide-react";
+import { ThemeSwitcher } from "@/components/theme/ThemeSwitcher";
 
 export function Navbar() {
   return (
@@ -25,9 +26,15 @@ export function Navbar() {
               <Users className="h-5 w-5" />
             </Link>
           </Button>
+          <Button variant="ghost" size="icon" asChild>
+            <Link to="/code">
+              <FileCode className="h-5 w-5" />
+            </Link>
+          </Button>
           <Button variant="ghost" size="icon">
             <Settings className="h-5 w-5" />
           </Button>
+          <ThemeSwitcher />
         </div>
       </div>
     </nav>
