@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Settings } from "lucide-react";
+import { Home, Users, Server, Settings } from "lucide-react";
 
 export function Navbar() {
   return (
@@ -13,6 +13,11 @@ export function Navbar() {
           <Button variant="ghost" size="icon" asChild>
             <Link to="/">
               <Home className="h-5 w-5" />
+            </Link>
+          </Button>
+          <Button variant="ghost" size="icon" asChild>
+            <Link to="/clusters">
+              <Server className="h-5 w-5" />
             </Link>
           </Button>
           <Button variant="ghost" size="icon" asChild>

@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navbar } from "./components/layout/Navbar";
 import Index from "./pages/Index";
 import People from "./pages/People";
+import Clusters from "./pages/Clusters";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/people" element={<People />} />
+            <Route path="/clusters" element={<Clusters />} />
           </Routes>
         </div>
       </BrowserRouter>
