@@ -5,7 +5,7 @@ import { ThemeSwitcher } from "@/components/theme/ThemeSwitcher";
 
 export function Navbar() {
   return (
-    <nav className="border-b bg-card">
+    <nav className="border-b bg-card sticky top-0 z-50">
       <div className="flex h-16 items-center px-4">
         <Link to="/" className="flex items-center space-x-2">
           <div className="font-bold text-xl text-primary">io.net</div>
