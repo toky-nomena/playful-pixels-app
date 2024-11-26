@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ChevronLeft, Cpu, Gpu } from "lucide-react";
+import { ChevronLeft, Cpu, Microchip } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface ClusterOption {
@@ -101,7 +101,7 @@ const Clusters = () => {
                 AMD
               </TabsTrigger>
               <TabsTrigger value="GPU" className="flex items-center space-x-2">
-                <Gpu className="h-4 w-4" />
+                <Microchip className="h-4 w-4" />
                 <span>GPU</span>
               </TabsTrigger>
               <TabsTrigger value="CPU" className="flex items-center space-x-2">
