@@ -1,12 +1,12 @@
 import { z } from "zod";
 
 export const personSchema = z.object({
-  name: z.string().min(1, "Name is required"),
+  id: z.string().optional(),
+  name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
-  role: z.string().min(1, "Role is required"),
-  department: z.string().min(1, "Department is required"),
-  status: z.enum(["Active", "Away", "Offline"]),
+  role: z.string().min(2, "Role must be at least 2 characters"),
+  bio: z.string().optional(),
 });
 
-export type Person = z.infer<typeof personSchema> & { id: string };
-export type PersonFormValues = Omit<Person, "id">;
+export type Person = z.infer<typeof personSchema>;
+export type PersonFormValues = z.infer<typeof personSchema>;

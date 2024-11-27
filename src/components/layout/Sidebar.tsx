@@ -1,36 +1,62 @@
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Home, Users, Server, FileCode } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Home, Users, Server, FileCode } from "lucide-react";
 
-export function Sidebar() {
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export function Sidebar({ className }: SidebarProps) {
+  const location = useLocation();
+
   return (
-    <div className="h-screen w-[200px] border-r bg-card fixed left-0 top-0 pt-16">
-      <div className="flex flex-col space-y-2 p-4">
-        <Link to="/" className="w-full">
-          <Button variant="ghost" className="w-full justify-start" size="lg">
-            <Home className="mr-2 h-5 w-5" />
-            Home
-          </Button>
-        </Link>
-        <Link to="/clusters" className="w-full">
-          <Button variant="ghost" className="w-full justify-start" size="lg">
-            <Server className="mr-2 h-5 w-5" />
-            Clusters
-          </Button>
-        </Link>
-        <Link to="/people" className="w-full">
-          <Button variant="ghost" className="w-full justify-start" size="lg">
-            <Users className="mr-2 h-5 w-5" />
-            People
-          </Button>
-        </Link>
-        <Link to="/code" className="w-full">
-          <Button variant="ghost" className="w-full justify-start" size="lg">
-            <FileCode className="mr-2 h-5 w-5" />
-            Code
-          </Button>
-        </Link>
+    <div className={cn("pb-12 h-screen", className)}>
+      <div className="space-y-4 py-4">
+        <div className="px-3 py-2">
+          <Link to="/" className="flex items-center pl-2 mb-8">
+            <h2 className="text-lg font-semibold tracking-tight text-primary">
+              io.net
+            </h2>
+          </Link>
+          <div className="space-y-1">
+            <Link to="/">
+              <Button
+                variant={location.pathname === "/" ? "secondary" : "ghost"}
+                className="w-full justify-start"
+              >
+                <Home className="mr-2 h-4 w-4" />
+                Home
+              </Button>
+            </Link>
+            <Link to="/clusters">
+              <Button
+                variant={location.pathname === "/clusters" ? "secondary" : "ghost"}
+                className="w-full justify-start"
+              >
+                <Server className="mr-2 h-4 w-4" />
+                Clusters
+              </Button>
+            </Link>
+            <Link to="/people">
+              <Button
+                variant={location.pathname === "/people" ? "secondary" : "ghost"}
+                className="w-full justify-start"
+              >
+                <Users className="mr-2 h-4 w-4" />
+                People
+              </Button>
+            </Link>
+            <Link to="/code">
+              <Button
+                variant={location.pathname === "/code" ? "secondary" : "ghost"}
+                className="w-full justify-start"
+              >
+                <FileCode className="mr-2 h-4 w-4" />
+                Code
+              </Button>
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );
