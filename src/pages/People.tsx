@@ -16,15 +16,15 @@ import { usePeopleStore } from "@/store/peopleStore";
 import { PersonFormValues } from "@/lib/schemas/person";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
 import { useToast } from "@/components/ui/use-toast";
 
 const People = () => {
@@ -45,7 +45,7 @@ const People = () => {
         description: "The person has been updated successfully.",
       });
     } else {
-      addPerson(data as any);
+      addPerson(data);
       toast({
         title: "Person added",
         description: "The new person has been added successfully.",
@@ -80,24 +80,24 @@ const People = () => {
             onChange={(e) => setSearch(e.target.value)}
             className="max-w-sm"
           />
-          <Drawer onClose={() => setSelectedPerson(null)} direction="right">
-            <DrawerTrigger asChild>
+          <Sheet onOpenChange={(open) => !open && setSelectedPerson(null)}>
+            <SheetTrigger asChild>
               <Button>
                 <Plus className="mr-2 h-4 w-4" /> Add Person
               </Button>
-            </DrawerTrigger>
-            <DrawerContent>
-              <DrawerHeader>
-                <DrawerTitle>
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>
                   {selectedPerson ? "Edit Person" : "Add New Person"}
-                </DrawerTitle>
-                <DrawerDescription>
+                </SheetTitle>
+                <SheetDescription>
                   {selectedPerson
                     ? "Edit the details of an existing person"
                     : "Add a new person to the team"}
-                </DrawerDescription>
-              </DrawerHeader>
-              <div className="p-4">
+                </SheetDescription>
+              </SheetHeader>
+              <div className="py-4">
                 <PersonForm
                   onSubmit={handleSubmit}
                   initialData={
@@ -107,13 +107,13 @@ const People = () => {
                   }
                 />
               </div>
-              <DrawerFooter>
-                <DrawerClose asChild>
+              <SheetFooter>
+                <SheetClose asChild>
                   <Button variant="outline">Cancel</Button>
-                </DrawerClose>
-              </DrawerFooter>
-            </DrawerContent>
-          </Drawer>
+                </SheetClose>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
         </div>
         <Table>
           <TableHeader>
@@ -142,8 +142,8 @@ const People = () => {
                 </TableCell>
                 <TableCell>
                   <div className="flex space-x-2">
-                    <Drawer onClose={() => setSelectedPerson(null)}>
-                      <DrawerTrigger asChild>
+                    <Sheet onOpenChange={(open) => !open && setSelectedPerson(null)}>
+                      <SheetTrigger asChild>
                         <Button
                           variant="ghost"
                           size="icon"
@@ -151,27 +151,27 @@ const People = () => {
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
-                      </DrawerTrigger>
-                      <DrawerContent>
-                        <DrawerHeader>
-                          <DrawerTitle>Edit Person</DrawerTitle>
-                          <DrawerDescription>
+                      </SheetTrigger>
+                      <SheetContent>
+                        <SheetHeader>
+                          <SheetTitle>Edit Person</SheetTitle>
+                          <SheetDescription>
                             Edit the details of an existing person
-                          </DrawerDescription>
-                        </DrawerHeader>
-                        <div className="p-4">
+                          </SheetDescription>
+                        </SheetHeader>
+                        <div className="py-4">
                           <PersonForm
                             onSubmit={handleSubmit}
                             initialData={person}
                           />
                         </div>
-                        <DrawerFooter>
-                          <DrawerClose asChild>
+                        <SheetFooter>
+                          <SheetClose asChild>
                             <Button variant="outline">Cancel</Button>
-                          </DrawerClose>
-                        </DrawerFooter>
-                      </DrawerContent>
-                    </Drawer>
+                          </SheetClose>
+                        </SheetFooter>
+                      </SheetContent>
+                    </Sheet>
                     <Button
                       variant="ghost"
                       size="icon"
