@@ -45,7 +45,7 @@ const People = () => {
         description: "The person has been updated successfully.",
       });
     } else {
-      addPerson(data);
+      addPerson(data as any);
       toast({
         title: "Person added",
         description: "The new person has been added successfully.",
@@ -80,7 +80,7 @@ const People = () => {
             onChange={(e) => setSearch(e.target.value)}
             className="max-w-sm"
           />
-          <Drawer onClose={() => setSelectedPerson(null)}>
+          <Drawer onClose={() => setSelectedPerson(null)} direction="right">
             <DrawerTrigger asChild>
               <Button>
                 <Plus className="mr-2 h-4 w-4" /> Add Person
