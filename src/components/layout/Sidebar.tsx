@@ -11,6 +11,8 @@ import {
   LifeBuoy,
   Package,
   UserCircle,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { 
   Command,
@@ -21,18 +23,33 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
 import { useState } from "react";
 
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
+  onToggle?: () => void;
+}
 
-export function Sidebar({ className }: SidebarProps) {
+export function Sidebar({ className, onToggle }: SidebarProps) {
   const location = useLocation();
   const [open, setOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+
+  const handleToggle = () => {
+    setCollapsed(!collapsed);
+    onToggle?.();
+  };
 
   return (
-    <div className={cn("pb-12", className)}>
+    <div className={cn("pb-12 relative", className)}>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute -right-4 top-4 hidden lg:flex"
+        onClick={handleToggle}
+      >
+        {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+      </Button>
       <div className="space-y-4 py-4">
         <div className="px-3 py-2">
           <div className="flex h-16 items-center px-4">

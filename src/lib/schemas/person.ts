@@ -1,11 +1,12 @@
 import { z } from "zod";
 
 export const personSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email address"),
-  role: z.string().min(1, "Role is required"),
-  department: z.string().min(1, "Department is required"),
+  id: z.string(),
+  role: z.string(),
+  name: z.string(),
+  email: z.string().email(),
+  department: z.string(),
   status: z.enum(["Active", "Away", "Offline"]),
 });
 
-export type PersonFormValues = z.infer<typeof personSchema>;
+export type Person = z.infer<typeof personSchema>;

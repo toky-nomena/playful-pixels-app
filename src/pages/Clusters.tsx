@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChevronLeft, Cpu, Microchip } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ClusterProcessorForm } from "@/components/clusters/ClusterProcessorForm";
 
 interface ClusterOption {
   id: string;
@@ -70,6 +71,7 @@ const clusters: ClusterOption[] = [
 const Clusters = () => {
   const [selectedType, setSelectedType] = useState<string>("GPU");
   const [selectedManufacturer, setSelectedManufacturer] = useState<string>("nvidia");
+  const [showForm, setShowForm] = useState(false);
 
   const filteredClusters = clusters.filter(
     (cluster) => 
@@ -108,80 +110,91 @@ const Clusters = () => {
         </div>
       </div>
 
-      <Card className="p-6">
-        <div className="space-y-6">
-          <div>
-            <h2 className="text-lg font-semibold mb-2">4. Select Your Cluster Processor</h2>
-            <p className="text-sm text-muted-foreground">
-              Browse from a wide range of Chips suitable for different use cases. You Can Either Select a CPU Only Cluster or a GPU Only Cluster.
-            </p>
-          </div>
+      <div className="grid gap-6 md:grid-cols-2">
+        <Card className="p-6">
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-lg font-semibold mb-2">4. Select Your Cluster Processor</h2>
+              <p className="text-sm text-muted-foreground">
+                Browse from a wide range of Chips suitable for different use cases. You Can Either Select a CPU Only Cluster or a GPU Only Cluster.
+              </p>
+            </div>
 
-          <Tabs value={selectedManufacturer} onValueChange={setSelectedManufacturer} className="w-full">
-            <TabsList>
-              <TabsTrigger value="all">All</TabsTrigger>
-              <TabsTrigger value="apple">Apple</TabsTrigger>
-              <TabsTrigger value="nvidia">Nvidia</TabsTrigger>
-              <TabsTrigger value="amd">AMD</TabsTrigger>
-              <TabsTrigger value="intel">Intel</TabsTrigger>
-            </TabsList>
-          </Tabs>
+            <Tabs value={selectedManufacturer} onValueChange={setSelectedManufacturer} className="w-full">
+              <TabsList>
+                <TabsTrigger value="all">All</TabsTrigger>
+                <TabsTrigger value="apple">Apple</TabsTrigger>
+                <TabsTrigger value="nvidia">Nvidia</TabsTrigger>
+                <TabsTrigger value="amd">AMD</TabsTrigger>
+                <TabsTrigger value="intel">Intel</TabsTrigger>
+              </TabsList>
+            </Tabs>
 
-          <Tabs value={selectedType} onValueChange={setSelectedType} className="w-full">
-            <TabsList>
-              <TabsTrigger value="GPU" className="flex items-center space-x-2">
-                <Microchip className="h-4 w-4" />
-                <span>GPU</span>
-              </TabsTrigger>
-              <TabsTrigger value="CPU" className="flex items-center space-x-2">
-                <Cpu className="h-4 w-4" />
-                <span>CPU</span>
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+            <Tabs value={selectedType} onValueChange={setSelectedType} className="w-full">
+              <TabsList>
+                <TabsTrigger value="GPU" className="flex items-center space-x-2">
+                  <Microchip className="h-4 w-4" />
+                  <span>GPU</span>
+                </TabsTrigger>
+                <TabsTrigger value="CPU" className="flex items-center space-x-2">
+                  <Cpu className="h-4 w-4" />
+                  <span>CPU</span>
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {filteredClusters.map((cluster) => (
-              <div
-                key={cluster.id}
-                className="border rounded-lg p-4 hover:border-primary transition-colors cursor-pointer"
-              >
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="font-medium">{cluster.name}</h3>
-                    <p className="text-sm text-muted-foreground">{cluster.memory}</p>
+            <div className="grid grid-cols-1 gap-4">
+              {filteredClusters.map((cluster) => (
+                <div
+                  key={cluster.id}
+                  className="border rounded-lg p-4 hover:border-primary transition-colors cursor-pointer"
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h3 className="font-medium">{cluster.name}</h3>
+                      <p className="text-sm text-muted-foreground">{cluster.memory}</p>
+                    </div>
+                    <div className="h-4 w-4 rounded-full border"></div>
                   </div>
-                  <div className="h-4 w-4 rounded-full border"></div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span>{cluster.usage}% Busy</span>
+                      <span className="text-muted-foreground">
+                        {100 - cluster.usage}% Free
+                      </span>
+                    </div>
+                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-primary rounded-full"
+                        style={{ width: `${cluster.usage}%` }}
+                      ></div>
+                    </div>
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>{cluster.usage}% Busy</span>
-                    <span className="text-muted-foreground">
-                      {100 - cluster.usage}% Free
-                    </span>
-                  </div>
-                  <div className="h-2 bg-muted rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-primary rounded-full"
-                      style={{ width: `${cluster.usage}%` }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </Card>
+        </Card>
 
-      <Card className="p-6">
-        <h3 className="font-semibold mb-4">Summary</h3>
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <span className="text-sm">Available GPUs:</span>
-            <span className="text-xl font-semibold text-primary">400</span>
+        <Card className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="font-semibold">Add New Processor</h3>
+            <Button
+              variant="outline"
+              onClick={() => setShowForm(!showForm)}
+            >
+              {showForm ? 'Hide Form' : 'Show Form'}
+            </Button>
           </div>
-        </div>
-      </Card>
+          {showForm && <ClusterProcessorForm />}
+          <div className="mt-6 space-y-4">
+            <div className="flex justify-between items-center">
+              <span className="text-sm">Available GPUs:</span>
+              <span className="text-xl font-semibold text-primary">400</span>
+            </div>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 };
