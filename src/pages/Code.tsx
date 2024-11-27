@@ -2,8 +2,12 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Bug, Play, FileCode, Settings, FolderOpen } from "lucide-react";
+import CodeMirror from '@uiw/react-codemirror';
+import { python } from '@codemirror/lang-python';
+import { useTheme } from "next-themes";
 
 const Code = () => {
+  const { theme } = useTheme();
   const [code, setCode] = useState(`def sum_of_list(lst1):
     return sum(lst1)
 
@@ -53,9 +57,14 @@ print(count_of_list(lst2))`);
         </Card>
 
         <Card className="col-span-9 p-4">
-          <pre className="font-mono text-sm p-4 bg-muted rounded-md overflow-auto">
-            <code>{code}</code>
-          </pre>
+          <CodeMirror
+            value={code}
+            height="500px"
+            theme={theme === 'dark' ? 'dark' : 'light'}
+            extensions={[python()]}
+            onChange={(value) => setCode(value)}
+            className="overflow-hidden rounded-md border"
+          />
         </Card>
       </div>
     </div>
