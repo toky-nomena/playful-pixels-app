@@ -13,41 +13,69 @@ interface ClusterOption {
   memory: string;
   usage: number;
   type: string;
+  manufacturer: string;
 }
 
 const clusters: ClusterOption[] = [
   {
     id: "1",
     name: "NVIDIA® GeForce™ RTX 3090",
-    memory: "12GB",
+    memory: "24GB",
     usage: 70,
     type: "GPU",
+    manufacturer: "nvidia"
   },
   {
     id: "2",
-    name: "NVIDIA® GeForce™ RTX 3090",
+    name: "NVIDIA® GeForce™ RTX 4090",
     memory: "24GB",
     usage: 50,
     type: "GPU",
+    manufacturer: "nvidia"
   },
   {
     id: "3",
-    name: "NVIDIA® GeForce™ RTX 3090",
-    memory: "12GB",
+    name: "AMD Radeon™ RX 6900 XT",
+    memory: "16GB",
     usage: 60,
     type: "GPU",
+    manufacturer: "amd"
   },
   {
     id: "4",
-    name: "NVIDIA® GeForce™ RTX 3060",
-    memory: "12GB",
+    name: "Apple M1 Max",
+    memory: "32GB",
     usage: 20,
     type: "GPU",
+    manufacturer: "apple"
+  },
+  {
+    id: "5",
+    name: "Intel® Xeon® Platinum 8380",
+    memory: "64GB",
+    usage: 45,
+    type: "CPU",
+    manufacturer: "intel"
+  },
+  {
+    id: "6",
+    name: "AMD EPYC™ 7763",
+    memory: "128GB",
+    usage: 30,
+    type: "CPU",
+    manufacturer: "amd"
   },
 ];
 
 const Clusters = () => {
-  const [selectedProcessor, setSelectedProcessor] = useState<string>("GPU");
+  const [selectedType, setSelectedType] = useState<string>("GPU");
+  const [selectedManufacturer, setSelectedManufacturer] = useState<string>("nvidia");
+
+  const filteredClusters = clusters.filter(
+    (cluster) => 
+      cluster.type === selectedType && 
+      (selectedManufacturer === "all" || cluster.manufacturer === selectedManufacturer)
+  );
 
   return (
     <div className="container py-8 space-y-8 fade-in">
@@ -89,17 +117,18 @@ const Clusters = () => {
             </p>
           </div>
 
-          <Tabs defaultValue="GPU" className="w-full">
+          <Tabs value={selectedManufacturer} onValueChange={setSelectedManufacturer} className="w-full">
             <TabsList>
-              <TabsTrigger value="apple">
-                Apple
-              </TabsTrigger>
-              <TabsTrigger value="nvidia">
-                Nvidia
-              </TabsTrigger>
-              <TabsTrigger value="amd">
-                AMD
-              </TabsTrigger>
+              <TabsTrigger value="all">All</TabsTrigger>
+              <TabsTrigger value="apple">Apple</TabsTrigger>
+              <TabsTrigger value="nvidia">Nvidia</TabsTrigger>
+              <TabsTrigger value="amd">AMD</TabsTrigger>
+              <TabsTrigger value="intel">Intel</TabsTrigger>
+            </TabsList>
+          </Tabs>
+
+          <Tabs value={selectedType} onValueChange={setSelectedType} className="w-full">
+            <TabsList>
               <TabsTrigger value="GPU" className="flex items-center space-x-2">
                 <Microchip className="h-4 w-4" />
                 <span>GPU</span>
@@ -112,7 +141,7 @@ const Clusters = () => {
           </Tabs>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {clusters.map((cluster) => (
+            {filteredClusters.map((cluster) => (
               <div
                 key={cluster.id}
                 className="border rounded-lg p-4 hover:border-primary transition-colors cursor-pointer"
