@@ -27,110 +27,113 @@ import {
 import { useState } from "react";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
+  collapsed?: boolean;
   onToggle?: () => void;
 }
 
-export function Sidebar({ className, onToggle }: SidebarProps) {
+export function Sidebar({ className, collapsed, onToggle }: SidebarProps) {
   const location = useLocation();
   const [open, setOpen] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
-
-  const handleToggle = () => {
-    setCollapsed(!collapsed);
-    onToggle?.();
-  };
 
   return (
-    <div className={cn("pb-12 relative", className)}>
+    <div className={cn("pb-12 w-64", collapsed && "w-16", className)}>
       <Button
         variant="ghost"
         size="icon"
-        className="absolute -right-4 top-4 hidden lg:flex"
-        onClick={handleToggle}
+        className="absolute right-4 top-4 hidden md:flex"
+        onClick={onToggle}
       >
         {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
       </Button>
       <div className="space-y-4 py-4">
         <div className="px-3 py-2">
-          <div className="flex h-16 items-center px-4">
+          <div className="mb-2 flex h-16 items-center px-4">
             <Link to="/" className="flex items-center">
-              <h2 className="text-lg font-semibold tracking-tight">io.net</h2>
+              <h2 className={cn("text-lg font-semibold tracking-tight", 
+                collapsed && "hidden")}>io.net</h2>
+              {collapsed && <Server className="h-6 w-6" />}
             </Link>
           </div>
           <div className="space-y-1">
             <Button
               variant="ghost"
-              className="w-full justify-start"
+              className={cn("w-full justify-start", collapsed && "justify-center")}
               onClick={() => setOpen(true)}
             >
-              <UserCircle className="mr-2 h-4 w-4" />
-              Profile
+              <UserCircle className="h-4 w-4" />
+              {!collapsed && <span className="ml-2">Profile</span>}
             </Button>
             <Link to="/">
               <Button
                 variant={location.pathname === "/" ? "secondary" : "ghost"}
-                className="w-full justify-start"
+                className={cn("w-full justify-start", collapsed && "justify-center")}
               >
-                <Home className="mr-2 h-4 w-4" />
-                Home
+                <Home className="h-4 w-4" />
+                {!collapsed && <span className="ml-2">Home</span>}
               </Button>
             </Link>
             <Link to="/clusters">
               <Button
                 variant={location.pathname === "/clusters" ? "secondary" : "ghost"}
-                className="w-full justify-start"
+                className={cn("w-full justify-start", collapsed && "justify-center")}
               >
-                <Server className="mr-2 h-4 w-4" />
-                Clusters
+                <Server className="h-4 w-4" />
+                {!collapsed && <span className="ml-2">Clusters</span>}
               </Button>
             </Link>
             <Link to="/people">
               <Button
                 variant={location.pathname === "/people" ? "secondary" : "ghost"}
-                className="w-full justify-start"
+                className={cn("w-full justify-start", collapsed && "justify-center")}
               >
-                <Users className="mr-2 h-4 w-4" />
-                People
+                <Users className="h-4 w-4" />
+                {!collapsed && <span className="ml-2">People</span>}
               </Button>
             </Link>
             <Link to="/code">
               <Button
                 variant={location.pathname === "/code" ? "secondary" : "ghost"}
-                className="w-full justify-start"
+                className={cn("w-full justify-start", collapsed && "justify-center")}
               >
-                <FileCode className="mr-2 h-4 w-4" />
-                Code
+                <FileCode className="h-4 w-4" />
+                {!collapsed && <span className="ml-2">Code</span>}
               </Button>
             </Link>
           </div>
         </div>
         <div className="px-3 py-2">
-          <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
+          <h2 className={cn("mb-2 px-4 text-lg font-semibold tracking-tight",
+            collapsed && "hidden")}>
             Overview
           </h2>
           <div className="space-y-1">
-            <Button variant="ghost" className="w-full justify-start">
-              <LayoutDashboard className="mr-2 h-4 w-4" />
-              Dashboard
+            <Button variant="ghost" className={cn("w-full justify-start", 
+              collapsed && "justify-center")}>
+              <LayoutDashboard className="h-4 w-4" />
+              {!collapsed && <span className="ml-2">Dashboard</span>}
             </Button>
-            <Button variant="ghost" className="w-full justify-start">
-              <Package className="mr-2 h-4 w-4" />
-              Projects
+            <Button variant="ghost" className={cn("w-full justify-start",
+              collapsed && "justify-center")}>
+              <Package className="h-4 w-4" />
+              {!collapsed && <span className="ml-2">Projects</span>}
             </Button>
           </div>
         </div>
         <div className="px-3 py-2">
-          <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
+          <h2 className={cn("mb-2 px-4 text-lg font-semibold tracking-tight",
+            collapsed && "hidden")}>
             Settings
           </h2>
           <div className="space-y-1">
-            <Button variant="ghost" className="w-full justify-start">
-              <Settings className="mr-2 h-4 w-4" />
-              Settings
+            <Button variant="ghost" className={cn("w-full justify-start",
+              collapsed && "justify-center")}>
+              <Settings className="h-4 w-4" />
+              {!collapsed && <span className="ml-2">Settings</span>}
             </Button>
-            <Button variant="ghost" className="w-full justify-start">
-              <LifeBuoy className="mr-2 h-4 w-4" />
-              Support
+            <Button variant="ghost" className={cn("w-full justify-start",
+              collapsed && "justify-center")}>
+              <LifeBuoy className="h-4 w-4" />
+              {!collapsed && <span className="ml-2">Support</span>}
             </Button>
           </div>
         </div>
