@@ -13,7 +13,7 @@ export interface Person {
 interface PeopleStore {
   people: Person[];
   addPerson: (person: Omit<Person, "id">) => void;
-  updatePerson: (id: string, person: Partial<Person>) => void;
+  updatePerson: (id: string, person: Partial<Omit<Person, "id">>) => void;
   removePerson: (id: string) => void;
 }
 
