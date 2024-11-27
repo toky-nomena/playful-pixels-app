@@ -21,7 +21,7 @@ const App = () => (
           <div className="min-h-screen bg-background">
             <Navbar />
             <Sidebar />
-            <main className="ml-[200px] p-8">
+            <main className="ml-[200px] pt-16 p-8">
               <Toaster />
               <Sonner />
               <Routes>
