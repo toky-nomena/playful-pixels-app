@@ -14,7 +14,7 @@ export interface Person {
 interface PeopleStore {
   people: Person[];
   addPerson: (person: Omit<Person, "id">) => void;
-  updatePerson: (id: string, person: Omit<Person, "id">) => void;
+  updatePerson: (id: string, person: Partial<Omit<Person, "id">>) => void;
   removePerson: (id: string) => void;
 }
 
@@ -29,7 +29,7 @@ export const usePeopleStore = create<PeopleStore>()(
       updatePerson: (id, person) =>
         set((state) => ({
           people: state.people.map((p) =>
-            p.id === id ? { ...person, id } : p
+            p.id === id ? { ...p, ...person } : p
           ),
         })),
       removePerson: (id) =>
